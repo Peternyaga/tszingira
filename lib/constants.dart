@@ -1,0 +1,9 @@
+const String baseUrl = "https://b7f3-197-254-21-150.ngrok-free.app";
+const String apisUrl = "$baseUrl/api";
+const String accountActivationURL = "$apisUrl/users";
+const String confirmOTPURL = "$apisUrl/confirm_otp";
+const String fetchExercisesURL = "$apisUrl/search_exercise";
+const String participateURL = "$apisUrl/participate_in_exercise";
+const String imageUpload = "$apisUrl/upload_image";
+const String plantTree = "$apisUrl/plant_tree";
+ String tscNo = "661946";
