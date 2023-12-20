@@ -30,7 +30,7 @@ class Activation extends StatelessWidget {
           );
 
       if (response.statusCode == 200) {
-        print('Post created successfully!');
+        toast('Post created successfully!');
         return response.statusCode.toString();
       } else {
         // print('failed to make request: ${response.body}');
@@ -120,10 +120,10 @@ class Activation extends StatelessWidget {
             ),
             ElevatedButton(
               onPressed: () async {
+                tscNo = tscNoController.text;
                 BuildContext currentContext = context;
                 String response =  await activate(tscNoController.text, idNo.text);
                 if(response=="200"){
-                  tscNo = tscNoController.text;
                   // prefs = await SharedPreferences.getInstance();
                   // prefs.setString("tsc_no", tscNo.text);
                   // prefs.setString("id_no", idNo.text);

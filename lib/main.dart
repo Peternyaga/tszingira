@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:testproject/account%20activation.dart';
-import 'package:testproject/home.dart';
 import 'package:testproject/register.dart';
+import 'package:testproject/set%20password/create_password.dart';
 
 void main() {
   runApp(const MaterialApp(
-    home: Home()
+    home: HomeScreen()
   ),
   );
 }
@@ -22,7 +21,7 @@ class HomeScreen extends StatelessWidget {
       Navigator.pop(context);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => Activation()),
+        MaterialPageRoute(builder: (context) => const SetPassword()),
       );
     });
     return Scaffold(
