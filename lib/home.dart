@@ -1,27 +1,83 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:testproject/constants.dart';
 import 'package:testproject/exercise_modal.dart';
 import 'package:testproject/exercises_list.dart';
+import 'package:testproject/functions.dart';
 
-class Home extends StatelessWidget {
+class Home extends StatefulWidget {
   const Home({super.key});
+
+  @override
+  State<Home> createState() => HomeState();
+}
+
+class HomeState extends State<Home> {
+   bool shouldRebuild = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
         backgroundColor: Colors.green[200],
         //centerTitle: true,
-        title: const Row(
+        title: Row(
           children: [
-            Icon(Icons.home),
-            SizedBox(
+            const Icon(Icons.home),
+            const SizedBox(
               width: 70,
             ),
-            Center(
+            const Center(
               child: Text("Ongoing exercises"),
             ),
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerRight,
+                child: PopupMenuButton(
+                  icon: const Icon(Icons.account_circle),
+                  onSelected: (String value) async {
+                    bool refresh = await handleMenuSelection(value, context);
+                    if(refresh){
+                      setState(() {
+                        shouldRebuild = true;
+                      });
+                    }
+                  },
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                    const PopupMenuItem<String>(
+                      value: 'profile',
+                      child: Row(
+                       mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.account_circle_outlined),
+                          Text("  my profile"),
+                        ],
+                      ),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'exercises',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.access_time_outlined),
+                          Text("  my exercises"),
+                        ],
+                      ),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'register',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.add),
+                          Text("  Register an exercise"),
+                        ],
+                      ),
+                    ),
+                    // Add more PopupMenuItems as needed
+                  ],
+
+                ),
+              ),
+            )
           ],
         ),
       ),
@@ -30,7 +86,7 @@ class Home extends StatelessWidget {
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // While data is being fetched, show a loading indicator
-            return Center(child: CircularProgressIndicator());
+            return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             // If an error occurs during fetching, display an error message
             return Center(child: Text('Error: ${snapshot.error}'));
@@ -43,6 +99,7 @@ class Home extends StatelessWidget {
             dynamic planted = "";
             String start = "";
             int participants = 0;
+            int status = 0;
             int exerciseId;
             try{
 
@@ -58,30 +115,21 @@ class Home extends StatelessWidget {
                  planted = item['planted seedlings'];
                  start = item['start'];
                  participants = item['participants'];
+                 status = item['status'];
 
-                 exerciseItems.add(ExerciseModal(exerciseId: exerciseId, exerciseName: exerciseName, location: location, start: start, targetSeedlings: target, plantedSeedlings: planted, participants: participants));
+
+                 exerciseItems.add(ExerciseModal(exerciseId: exerciseId, exerciseName: exerciseName, location: location, start: start, targetSeedlings: target, plantedSeedlings: planted, participants: participants, status: status));
                }
 
             }catch(e){
               print(e.toString());
               mylist=[1,2,3,4];
             }
-            return ExercisesList(list: exerciseItems);
+            return ExercisesList(list: exerciseItems, myContext: 1,);
             // If data is fetched successfully, display it
           }
         },
       ),
     );
-  }
-
-  Future<String> fetchExercises(String query) async {
-    final Map<String,String> data = {
-      'query':query
-    };
-    final uri = Uri.parse(fetchExercisesURL).replace(queryParameters: data);
-    var response = await http.get(uri);
-    print(response.statusCode);
-    print(response.body);
-    return response.body;
   }
 }

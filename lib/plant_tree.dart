@@ -2,11 +2,12 @@ import 'dart:convert';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:fluttertoast/fluttertoast.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:testproject/constants.dart';
 import 'package:testproject/image_picker.dart';
 import 'package:http/http.dart' as http;
+
+import 'functions.dart';
 
 class PlantTree extends StatelessWidget {
   final String exercise, tscNo;
@@ -101,7 +102,7 @@ class PlantTree extends StatelessWidget {
                 alignment: Alignment.bottomRight,
                 child: FloatingActionButton(
                     onPressed: (){
-                      if(imageIsSelected && text.text!=null && text.text.isNotEmpty){
+                      if(imageIsSelected && text.text.isNotEmpty && text.text.isNotEmpty){
                         uploadImage();
                         print(image!.path);
                       }else{
@@ -168,19 +169,12 @@ Future<String> uploadRecord(String imagePath) async {
         },
         body: jsonEncode(data)
       );
+      toast(response.body);
       return response.body;
     }catch(e){
       return e.toString();
     }
 }
 
-void toast(String message){
-  Fluttertoast.showToast(
-    msg: message,
-    toastLength: Toast.LENGTH_SHORT,
-    gravity: ToastGravity.BOTTOM,
-    backgroundColor: Colors.black,
-    textColor: Colors.white,
-  );
-}
+
 }

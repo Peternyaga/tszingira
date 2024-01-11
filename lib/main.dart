@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:testproject/login/Login.dart';
 import 'package:testproject/register.dart';
-import 'package:testproject/set%20password/create_password.dart';
 
 void main() {
   runApp(const MaterialApp(
@@ -16,12 +16,12 @@ class HomeScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
 
-    Future.delayed(const Duration(seconds: 5), () {
+    Future.delayed(const Duration(seconds: 2), () {
       // Navigate to the new screen after 2 seconds
       Navigator.pop(context);
       Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => const SetPassword()),
+        MaterialPageRoute(builder: (context) => const Login()),
       );
     });
     return Scaffold(

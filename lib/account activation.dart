@@ -5,15 +5,13 @@ import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
 import 'package:testproject/confirm_otp.dart';
 import 'package:testproject/constants.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:testproject/login/Login.dart';
+
+import 'functions.dart';
 
 
 class Activation extends StatelessWidget {
-  //const Activation({super.key});
-
-  final TextEditingController tscNoController = TextEditingController();
-  final TextEditingController idNo = TextEditingController();
-  late SharedPreferences prefs;
+  const Activation({super.key});
 
   Future<String> activate(String tscNo, String idNo) async {
     final Map<String, dynamic> data = {
@@ -47,6 +45,8 @@ class Activation extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextEditingController tscNoController = TextEditingController();
+    final TextEditingController idNo = TextEditingController();
     return Scaffold(
       backgroundColor: Colors.green[100],
       appBar: AppBar(
@@ -148,6 +148,10 @@ class Activation extends StatelessWidget {
                 ),
               ),
             ),
+            const SizedBox(height: 70,),
+            TextButton(onPressed: (){
+              navigator(const Login(), context, true);
+            }, child: const Text("login"))
           ],
         ),
       ),

@@ -4,7 +4,8 @@ import 'package:testproject/exercise_modal.dart';
 
 class ExercisesList extends StatelessWidget {
    List<ExerciseModal> list;
-   ExercisesList({super.key, required this.list});
+   final int myContext;
+   ExercisesList({super.key, required this.list, required this.myContext});
 
 
   @override
@@ -12,7 +13,7 @@ class ExercisesList extends StatelessWidget {
     return ListView.builder(
       itemCount: list.length,
       itemBuilder: (context, index) {
-        return ExerciseItem(item:list[index]);
+        return ExerciseItem(item:list[index], myContext: myContext,);
       },
     );
   }

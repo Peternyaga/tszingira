@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:testproject/account%20activation.dart';
 import 'package:testproject/home.dart';
 
 import '../constants.dart';
+import '../functions.dart';
 
 
 class LoginBody extends StatefulWidget {
@@ -18,12 +20,8 @@ class _LoginBodyState extends State<LoginBody> {
   TextEditingController passwordEditor = TextEditingController();
   bool isLoading = false;
 
-  void navigator(dynamic destination) {
-    Navigator.pop(context);
-    Navigator.push(
-      context,
-      MaterialPageRoute(builder: (context) => destination),
-    );
+  void callNavigator(dynamic destination, bool pop){
+    navigator(destination, context, pop);
   }
 
   @override
@@ -107,7 +105,8 @@ class _LoginBodyState extends State<LoginBody> {
                 });
                 if(response=="0"){
                   toast("success");
-                  navigator(const Home());
+                  tscNo = tscNoEditor.text;
+                  callNavigator(const Home(), true);
                 }else if(response=="110") {
                   toast("Incorrect password");
                 }else{
@@ -128,6 +127,10 @@ class _LoginBodyState extends State<LoginBody> {
               ),
             ),
           ),
+          const SizedBox(height: 70,),
+          TextButton(onPressed: (){
+            navigator(const Activation(), context, true);
+          }, child: const Text("Activate Account"))
         ],
       ),
     );
