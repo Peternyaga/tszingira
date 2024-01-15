@@ -1,6 +1,6 @@
 
-const String baseUrl = "https://probable-weasel-newly.ngrok-free.app";
-//const String baseUrl = "http://127.0.0.1:8000";
+//const String baseUrl = "https://probable-weasel-newly.ngrok-free.app";
+const String baseUrl = "http://127.0.0.1:8000";
 const String apisUrl = "$baseUrl/api";
 const String accountActivationURL = "$apisUrl/users";
 const String confirmOTPURL = "$apisUrl/confirm_otp";
@@ -13,6 +13,7 @@ const String imageUpload = "$apisUrl/upload_image";
 const String plantTree = "$apisUrl/plant_tree";
 const String registerExercise = "$apisUrl/register_exercise";
 const String startExercise = "$apisUrl/start_exercise";
+const String myActivityURL = "$apisUrl/participated_exercises";
  String tscNo = "";
 
 

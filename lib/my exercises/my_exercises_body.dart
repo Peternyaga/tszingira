@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:testproject/constants.dart';
+import 'package:testproject/register%20exercise/register_exercise.dart';
 import '../exercise_modal.dart';
 import '../exercises_list.dart';
 import '../functions.dart';
@@ -16,7 +17,7 @@ class _State extends State<MyExercisesBody> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
-      future: fetchMyExercises(tscNo),
+      future: getStringRequest(tscNo, fetchMyExercisesURL),
       // Your fetchExercises function returning a Future<String>
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -70,7 +71,15 @@ class _State extends State<MyExercisesBody> {
           }
           return ExercisesList(list: exerciseItems, myContext: 2,);
         }else {
-          return const Center(child: Text("You don't have any registered exercise"),);
+          return Center(child: Column(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              const Text("You don't have any registered exercise"),
+              FloatingActionButton(onPressed: (){
+                navigator(const RegisterExercise(), context, true);},
+              child: const Icon(Icons.add),)
+            ],
+          ),);
         }
       },
     );

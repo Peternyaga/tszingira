@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:testproject/exercise_item.dart';
-import 'package:testproject/exercise_modal.dart';
 
 class ExercisesList extends StatelessWidget {
-   List<ExerciseModal> list;
+   final List list;
    final int myContext;
-   ExercisesList({super.key, required this.list, required this.myContext});
+   const ExercisesList({super.key, required this.list, required this.myContext});
 
 
   @override

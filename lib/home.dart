@@ -1,5 +1,7 @@
 import 'dart:convert';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:testproject/constants.dart';
 import 'package:testproject/exercise_modal.dart';
 import 'package:testproject/exercises_list.dart';
 import 'package:testproject/functions.dart';
@@ -53,6 +55,16 @@ class HomeState extends State<Home> {
                       ),
                     ),
                     const PopupMenuItem<String>(
+                      value: 'activity',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(CupertinoIcons.graph_square),
+                          Text("  my activity"),
+                        ],
+                      ),
+                    ),
+                    const PopupMenuItem<String>(
                       value: 'exercises',
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -82,7 +94,7 @@ class HomeState extends State<Home> {
         ),
       ),
       body: FutureBuilder<String>(
-        future: fetchExercises(""), // Your fetchExercises function returning a Future<String>
+        future: getStringRequest("", fetchExercisesURL), // Your fetchExercises function returning a Future<String>
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // While data is being fetched, show a loading indicator

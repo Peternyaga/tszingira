@@ -53,6 +53,7 @@ class _LoginBodyState extends State<LoginBody> {
                       focusNode: tscNoFocusNode,
                       controller: tscNoEditor,
                       textAlign: TextAlign.center,
+                      keyboardType: TextInputType.number,
                     ),
                   ),
                 ),
@@ -91,10 +92,10 @@ class _LoginBodyState extends State<LoginBody> {
             onPressed:
             isLoading ? null
                 :() async {
-              setState(() {
-                isLoading = true;
-              });
               if(tscNoEditor.text.isNotEmpty && passwordEditor.text.isNotEmpty) {
+                setState(() {
+                  isLoading = true;
+                });
                 Map data = {
                   'tsc_no': tscNoEditor.text,
                   'password': passwordEditor.text
@@ -112,6 +113,8 @@ class _LoginBodyState extends State<LoginBody> {
                 }else{
                   toast("An error occurred. Please try again");
                 }
+              }else{
+                toast("All fields are required");
               }
 
             },

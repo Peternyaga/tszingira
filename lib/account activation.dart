@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
@@ -31,16 +30,11 @@ class Activation extends StatelessWidget {
         toast('Post created successfully!');
         return response.statusCode.toString();
       } else {
-        // print('failed to make request: ${response.body}');
-        // print('status code: ${response.statusCode}');
         return response.statusCode.toString();
       }
     } catch (e) {
-      print('connection failed: ${e.toString()}');
       return e.toString();
     }
-
-
   }
 
   @override
