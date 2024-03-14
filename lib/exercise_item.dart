@@ -37,7 +37,7 @@ class _ExerciseItemState extends State<ExerciseItem> {
     return  Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 1.0),
       child:Container(
-        color: Colors.green[50],
+        color: Colors.teal[50],
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -67,10 +67,10 @@ class _ExerciseItemState extends State<ExerciseItem> {
                     ),
                     Text(status,
                       overflow: TextOverflow.visible,
-                      style: TextStyle(
+                      style: const TextStyle(
                           fontSize: 18,
                           fontWeight: FontWeight.w400,
-                          color: Colors.green[500]
+                          //color: Colors.green[500]
                       ),
                     ),
                   ],
@@ -91,10 +91,11 @@ class _ExerciseItemState extends State<ExerciseItem> {
                       ),
                       Expanded(
                         child: Text(widget.item.location,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18,
                               fontWeight: FontWeight.w400,
-                              color: Colors.green[500]
+                              //overflow: TextOverflow.ellipsis
+                              //color: Colors.green[500]
                           ),
                         ),
                       ),
@@ -116,10 +117,10 @@ class _ExerciseItemState extends State<ExerciseItem> {
                       ),
                       Text(
                           widget.item.targetSeedlings.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
-                            color: Colors.green[500]
+                            //color: Colors.green[500]
                         ),
                       ),
                 ]
@@ -140,10 +141,10 @@ class _ExerciseItemState extends State<ExerciseItem> {
                       ),
                       Text(
                         widget.item.plantedSeedlings.toString(),
-                        style: TextStyle(
+                        style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.w400,
-                            color: Colors.green[500]
+                            //color: Colors.green[500]
                         ),
                       ),
                     ]
@@ -211,7 +212,7 @@ class _ExerciseItemState extends State<ExerciseItem> {
                           );
                         }
                       }else {
-                        return Row();
+                        return const Row();
                       }
                     },
                   )

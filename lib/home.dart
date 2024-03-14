@@ -19,11 +19,12 @@ class HomeState extends State<Home> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar:AppBar(
-        backgroundColor: Colors.green[200],
-        //centerTitle: true,
+        //backgroundColor: Colors.green[200],
+        centerTitle: true,
         title: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
-            const Icon(Icons.home),
+            //const Icon(Icons.home),
             const SizedBox(
               width: 70,
             ),

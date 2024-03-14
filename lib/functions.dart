@@ -13,7 +13,7 @@ import 'constants.dart';
 void toast(String message){
   Fluttertoast.showToast(
     msg: message,
-    toastLength: Toast.LENGTH_SHORT,
+    toastLength: Toast.LENGTH_LONG,
     gravity: ToastGravity.BOTTOM,
     backgroundColor: Colors.black,
     textColor: Colors.white,
@@ -38,7 +38,7 @@ return await Navigator.push(context, MaterialPageRoute(builder: (context) => con
   }
 }
 
-Future<String> postStringRequest(Map data, String url) async {
+Future<dynamic> postStringRequest(Map data, String url) async {
 
   try{
     var response = await http.post(
@@ -48,7 +48,11 @@ Future<String> postStringRequest(Map data, String url) async {
         },
         body:jsonEncode(data)
     );
+    if (response.statusCode == 200){
     return response.body;
+    }else{
+      return 500;
+    }
   }catch(e){
     return e.toString();
   }

@@ -7,9 +7,9 @@ class Login extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.green[100],
+     // backgroundColor: Colors.green[100],
       appBar: AppBar(
-        backgroundColor: Colors.green[200],
+       // backgroundColor: Colors.green[200],
         title: const Text(
           "Login",
           style: TextStyle(

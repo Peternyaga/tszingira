@@ -12,9 +12,10 @@ class MyImagePicker extends StatefulWidget {
 
 class _MyImagePickerState extends State<MyImagePicker> {
   final ImagePicker picker = ImagePicker();
-  XFile? image;
+  static XFile? image;
   Future<void> getImage() async {
     final XFile? selectedImage = await picker.pickImage(source: ImageSource.gallery);
+    print(selectedImage);
     if (selectedImage != null) {
       PlantTree.myFocusNode.requestFocus();
       PlantTree.imageIsSelected = true;
@@ -24,11 +25,11 @@ class _MyImagePickerState extends State<MyImagePicker> {
       });
     }
   }
-  void clearData() {
-    setState(() {
-      image = null;
-    });
-  }
+  // void clearData() {
+  //   setState(() {
+  //     image = null;
+  //   });
+  // }
   @override
   Widget build(BuildContext context) {
     return Column(

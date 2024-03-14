@@ -1,10 +1,28 @@
 import 'package:flutter/material.dart';
 import 'package:testproject/login/Login.dart';
-import 'package:testproject/register.dart';
+import 'package:testproject/splashscreen.dart';
 
 void main() {
-  runApp(const MaterialApp(
-    home: HomeScreen()
+  runApp( MaterialApp(
+    theme: ThemeData.light().copyWith(
+      cardTheme: CardTheme(color: Colors.tealAccent[50]),
+        appBarTheme: AppBarTheme(color: Colors.blue[900]
+        ),
+        colorScheme: const ColorScheme(
+          brightness: Brightness.light,
+          primary: Colors.green,
+          onPrimary: Colors.white, // Adjusted for better contrast
+          secondary: Colors.green,
+          onSecondary: Colors.white, // Adjusted for better contrast
+          error: Colors.amber,
+          onError: Colors.black, // Adjusted for better contrast
+          background: Colors.teal,
+          onBackground: Colors.green, // Adjusted for better contrast
+          surface: Colors.white, // Use a predefined color or define a custom one
+          onSurface: Colors.black, // Adjusted for better contrast
+        )
+    ),
+    home: const HomeScreen(),
   ),
   );
 }
@@ -25,11 +43,11 @@ class HomeScreen extends StatelessWidget {
       );
     });
     return Scaffold(
-      backgroundColor: Colors.green[100],
+      //backgroundColor: Colors.green[100],
       appBar: AppBar(
-        backgroundColor: Colors.green[100],
+        //backgroundColor: Colors.green[100],
       ),
-      body:  const Register(),
+      body:  const Splashscreen(),
     );
   }
 }

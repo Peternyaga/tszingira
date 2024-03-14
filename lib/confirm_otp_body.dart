@@ -41,7 +41,7 @@ class _ConfirmOtpBodyState extends State<ConfirmOtpBody> {
         Navigator.pop(context);
         Navigator.push(
           context,
-          MaterialPageRoute(builder: (context) => SetPassword()),
+          MaterialPageRoute(builder: (context) => const SetPassword()),
         );
       }
       setState(() {

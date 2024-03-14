@@ -115,22 +115,14 @@ class Activation extends StatelessWidget {
             ElevatedButton(
               onPressed: () async {
                 tscNo = tscNoController.text;
-                BuildContext currentContext = context;
                 String response =  await activate(tscNoController.text, idNo.text);
                 if(response=="200"){
                   // prefs = await SharedPreferences.getInstance();
                   // prefs.setString("tsc_no", tscNo.text);
                   // prefs.setString("id_no", idNo.text);
                   print(response);
-                  Navigator.of(currentContext).push(MaterialPageRoute(builder: (context) {
-                    return ConfirmOTP();
-                  }));
+                  navigator(ConfirmOTP(), context, true);
                 }else {
-                  // if (kDebugMode) {
-                  //   print(response.toString());
-                  //   print("tsc_no: ${tscNo.text}");
-                  //   print("id_no: ${idNo.text}");
-                  // }
                 }
               },
               child: const Text(

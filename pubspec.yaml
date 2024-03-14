@@ -29,10 +29,15 @@ environment:
 # versions available, run `flutter pub outdated`.
 dependencies:
   http: ^1.1.2
-  image_picker: 1.0.0
-  shared_preferences: ^2.0.10
+  image_picker: ^0.8.4+4
+  native_exif: ^0.4.0
+  permission_handler: ^11.3.0
+  geolocator: ^11.0.0
+  shared_preferences: ^2.2.2
   toast: ^0.3.0
   fluttertoast: ^8.0.8
+  fl_chart: ^0.60.0
+  flutter_launcher_icons: ^0.13.1
   flutter:
     sdk: flutter
 
@@ -69,7 +74,6 @@ flutter:
     - images/tsc_logo no background.png
     - images/coat of arms no background.png
 
-
   # An image asset can refer to one or more resolution-specific "variants", see
   # https://flutter.dev/assets-and-images/#resolution-aware
 
@@ -95,3 +99,7 @@ flutter:
   #
   # For details regarding fonts from package dependencies,
   # see https://flutter.dev/custom-fonts/#from-packages
+flutter_launcher_icons:
+    android: "launcher_icon"
+    ios: true
+    image_path: "assets/logo.png"
