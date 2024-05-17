@@ -1,7 +1,7 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:testproject/constants.dart';
-import 'package:testproject/register%20exercise/register_exercise.dart';
+import 'package:tsc_miti/constants.dart';
+import 'package:tsc_miti/register%20exercise/register_exercise.dart';
 import '../exercise_modal.dart';
 import '../exercises_list.dart';
 import '../functions.dart';
@@ -17,7 +17,7 @@ class _State extends State<MyExercisesBody> {
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<String>(
-      future: getStringRequest(tscNo, fetchMyExercisesURL),
+      future: getStringRequest({'query':tscNo}, fetchMyExercisesURL),
       // Your fetchExercises function returning a Future<String>
       builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
@@ -27,7 +27,6 @@ class _State extends State<MyExercisesBody> {
 // If an error occurs during fetching, display an error message
           return Center(child: Text('Error: ${snapshot.error}'));
         } else if(!(snapshot.data.toString()=="0")){
-          toast(snapshot.data.toString());
           List<dynamic> myList = [];
           List<ExerciseModal> exerciseItems = [];
           String exerciseName = "";

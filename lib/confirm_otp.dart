@@ -1,7 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:testproject/confirm_otp_body.dart';
+import 'package:tsc_miti/confirm_otp_body.dart';
 import 'constants.dart';
 class ConfirmOTP extends StatelessWidget {
   ConfirmOTP({super.key});
@@ -13,9 +13,7 @@ class ConfirmOTP extends StatelessWidget {
     FocusNode myFocusNode = FocusNode();
     myFocusNode.requestFocus();
     return Scaffold(
-      backgroundColor: Colors.green[100],
       appBar: AppBar(
-        backgroundColor: Colors.green[200],
         title: const Center(
           child: Text(
             "otp Confirmation",

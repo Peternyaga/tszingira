@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:testproject/constants.dart';
-import 'package:testproject/exercise_modal.dart';
-import 'package:testproject/plant_tree.dart';
+import 'package:tsc_miti/constants.dart';
+import 'package:tsc_miti/exercise_modal.dart';
+import 'package:tsc_miti/plant_tree.dart';
 import 'functions.dart';
 
 class ExerciseItem extends StatefulWidget {
@@ -36,8 +36,7 @@ class _ExerciseItemState extends State<ExerciseItem> {
 
     return  Padding(
       padding: const EdgeInsets.fromLTRB(5.0, 5.0, 5.0, 1.0),
-      child:Container(
-        color: Colors.teal[50],
+      child:Card(
         child: Center(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
@@ -157,7 +156,6 @@ class _ExerciseItemState extends State<ExerciseItem> {
                       if (widget.myContext == 1) {
                         return ElevatedButton(
                           onPressed: () async {
-                            print("${widget.item.exerciseName} clicked");
                             int status = await paricipate(widget.item);
                             if (status == 200) {
                               navigator(PlantTree(
@@ -179,7 +177,6 @@ class _ExerciseItemState extends State<ExerciseItem> {
                                   'initiator': tscNo,
                                   'start': DateTime.now().toString()
                                 };
-                                print("response: ${DateTime.now().toString()}");
                                 String response = await postStringRequest(data, startExercise);
                                 if(response == "1"){
                                   setState(() {
@@ -188,7 +185,6 @@ class _ExerciseItemState extends State<ExerciseItem> {
                                 }else{
                                   toast("an error occured. please try again");
                                 }
-                                print("response: $response");
                               }, child: const Text("start")),
                             ],
                           );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testproject/register%20exercise/register_exercise_body.dart';
+import 'package:tsc_miti/register%20exercise/register_exercise_body.dart';
 
 class  RegisterExercise extends StatelessWidget {
   const RegisterExercise({super.key});

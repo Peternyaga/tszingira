@@ -4,7 +4,7 @@
         android:name="android.hardware.camera"
         android:required="false" />
     <application
-        android:label="test-project"
+        android:label="TSC Miti"
         android:name="${applicationName}"
         android:icon="@mipmap/launcher_icon">
         <activity

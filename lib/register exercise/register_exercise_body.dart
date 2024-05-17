@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:testproject/constants.dart';
-import 'package:testproject/functions.dart';
-import 'package:testproject/my%20exercises/my_exercises.dart';
+import 'package:tsc_miti/constants.dart';
+import 'package:tsc_miti/functions.dart';
+import 'package:tsc_miti/my%20exercises/my_exercises.dart';
 
 class RegisterExerciseBody extends StatefulWidget {
   const RegisterExerciseBody({super.key});

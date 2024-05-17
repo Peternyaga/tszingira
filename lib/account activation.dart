@@ -2,20 +2,29 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:http/http.dart' as http;
-import 'package:testproject/confirm_otp.dart';
-import 'package:testproject/constants.dart';
-import 'package:testproject/login/Login.dart';
+import 'package:tsc_miti/confirm_otp.dart';
+import 'package:tsc_miti/constants.dart';
+import 'package:tsc_miti/login/Login.dart';
 
 import 'functions.dart';
 
 
-class Activation extends StatelessWidget {
+class Activation extends StatefulWidget {
   const Activation({super.key});
 
-  Future<String> activate(String tscNo, String idNo) async {
+  @override
+  State<Activation> createState() => _ActivationState();
+}
+
+class _ActivationState extends State<Activation> {
+  bool isLoading = false;
+  final TextEditingController tscNoController = TextEditingController();
+  final TextEditingController phone = TextEditingController();
+  Future<String> activateAccount(String tscNo, String phone) async {
     final Map<String, dynamic> data = {
       'tsc_no': tscNo,
-      'id_no': idNo,
+      'phone': phone,
+      "api_key": "REMOVED_ROTATE_CREDENTIAL"
     };
     try {
       var response = await http.post(
@@ -25,26 +34,22 @@ class Activation extends StatelessWidget {
             },
             body: jsonEncode(data),
           );
-
-      if (response.statusCode == 200) {
-        toast('Post created successfully!');
-        return response.statusCode.toString();
-      } else {
-        return response.statusCode.toString();
-      }
+      print(response.body);
+        return response.body;
     } catch (e) {
-      return e.toString();
+      return "112";
     }
+  }
+
+  void callNavigator(var dest, bool pop){
+    navigator(dest, context,pop);
   }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController tscNoController = TextEditingController();
-    final TextEditingController idNo = TextEditingController();
+
     return Scaffold(
-      backgroundColor: Colors.green[100],
       appBar: AppBar(
-        backgroundColor: Colors.green[200],
         title: const Center(
           child: Text(
             "Account activation",
@@ -55,90 +60,98 @@ class Activation extends StatelessWidget {
           ),
         ),
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Column(
-              children: [
-                const Text(
-                  "TSC number",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 2,
-                  ),
+      body: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(50.0),
+          child: Center(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: <Widget>[
+                TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(), // Creates rounded borders
+                    labelText: 'TSC NO.',
+                  ),// Optional label text
+                  controller: tscNoController,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
                 ),
-                SizedBox(
-                  width: 200.0, // Set width as desired
-                  height: 50.0, // Set height as desired
-                  child: TextField(
-                    controller: tscNoController,
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                    ],
-                  ),
-                )
-              ],
-            ),
-            const SizedBox(
-              height: 50.0,
-            ),
-            Column(
-              children: [
-                const Text(
-                  "ID number",
-                  style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    letterSpacing: 2,
-                  ),
+                const SizedBox(
+                  height: 50.0,
                 ),
-                SizedBox(
-                  width: 200.0, // Set width as desired
-                  height: 50.0, // Set height as desired
+                TextField(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(), // Creates rounded borders
+                    labelText: 'PHONE',
+                  ),// Optional label text
+                  controller: phone,
+                  textAlign: TextAlign.center,
+                  keyboardType: TextInputType.number,
+                  inputFormatters: <TextInputFormatter>[
+                    FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
+                  ],
+                ),
+                const SizedBox(
+                  height: 50.0,
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    if(tscNoController.text.isNotEmpty && phone.text.isNotEmpty){
+                      setState(() {
+                        isLoading = true;
+                      });
+                      String response =  await activateAccount(tscNoController.text, phone.text.trim());
+                      setState(() {
+                        isLoading = false;
+                      });
+                      if(response == "112"){
+                        return toast("connection was interrupted");
+                      }
+                      try {
+                        Map map = jsonDecode(response);
+                        if (map['code'] == 0) {
+                          tscNo = tscNoController.text.trim();
+                          callNavigator(ConfirmOTP(), true);
+                        } else {
+                          toast(map['message']);
+                        }
+                      } catch (e) {
+                        print(e);
+                        toast("an error occured");
+                      }
+                    } else {
+                      return toast("all fields are required");
+                    }
+                  },
+                  child: Builder(builder: (context) {
+                    if (isLoading) {
+                      return const CircularProgressIndicator(
+                        color: Colors.green,
+                      );
+                    } else {
+                      return const Text(
+                        "activate",
+                        style: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.bold,
+                            letterSpacing: 2,
+                          ),
+                        );
+                      }
 
-                  child: TextField(
-                    controller: idNo,
-                    textAlign: TextAlign.center,
-                    keyboardType: TextInputType.number,
-                    inputFormatters: <TextInputFormatter>[
-                      FilteringTextInputFormatter.allow(RegExp(r'[0-9]'))
-                    ],
+                    }
                   ),
-                )
+                ),
+                const SizedBox(height: 70,),
+                TextButton(onPressed: (){
+                  navigator(const Login(), context, true);
+                }, child: const Text("login"))
               ],
             ),
-            const SizedBox(
-              height: 50.0,
-            ),
-            ElevatedButton(
-              onPressed: () async {
-                tscNo = tscNoController.text;
-                String response =  await activate(tscNoController.text, idNo.text);
-                if(response=="200"){
-                  // prefs = await SharedPreferences.getInstance();
-                  // prefs.setString("tsc_no", tscNo.text);
-                  // prefs.setString("id_no", idNo.text);
-                  print(response);
-                  navigator(ConfirmOTP(), context, true);
-                }else {
-                }
-              },
-              child: const Text(
-                "activate",
-                style: TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  letterSpacing: 2,
-                ),
-              ),
-            ),
-            const SizedBox(height: 70,),
-            TextButton(onPressed: (){
-              navigator(const Login(), context, true);
-            }, child: const Text("login"))
-          ],
+          ),
         ),
       ),
     );

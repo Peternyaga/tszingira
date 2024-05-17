@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testproject/exercise_item.dart';
+import 'package:tsc_miti/exercise_item.dart';
 
 class ExercisesList extends StatelessWidget {
    final List list;

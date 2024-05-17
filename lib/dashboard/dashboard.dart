@@ -1,83 +1,183 @@
-import 'dart:convert';
+import 'package:intl/intl.dart';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:testproject/dashboard/dashboard_body.dart';
-import 'package:testproject/dashboard/dashboard_modal.dart';
-import 'package:testproject/dashboard/leaderboard_item_modal.dart';
-import 'package:testproject/functions.dart';
-import 'package:testproject/home.dart';
-import 'package:testproject/plant_tree.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:tsc_miti/dashboard/dashboard_body.dart';
+import 'package:tsc_miti/dashboard/dashboard_modal.dart';
+import 'package:tsc_miti/functions.dart';
+import 'package:tsc_miti/home.dart';
+import 'package:tsc_miti/plant_tree.dart';
 
 import '../constants.dart';
 
 class Dashboard extends StatefulWidget {
    DashboardData? data;
    Dashboard({super.key,  this.data});
-  static bool refresh = false;
-
-  @override
+   static bool refresh = false;
+   @override
   State<Dashboard> createState() => _DashboardState();
 }
 
-class _DashboardState extends State<Dashboard> {
+class _DashboardState extends State<Dashboard>{
   int item=0;
+  String startDate = "2023-03-00 00:00:00";
+  String endDate = DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now());
+
+  void getPrefs()async{
+    SharedPreferences myPrefs =  await SharedPreferences.getInstance();
+    tscNo = myPrefs.getString('tsc no')!;
+    firstName = myPrefs.getString('first name')!;
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: GestureDetector(
-            onTap: (){
-              toast("whats up $firstName?");
-            },
-            child: Padding(
+        title: Row(
+          children: [
+            Padding(
               padding: const EdgeInsets.all(8.0),
-              child: Card(
-                child: Column(
-                  children: [
-                    const Text("Hi",
-                      style: TextStyle(
-                           // fontWeight: FontWeight.bold
-                      ),),
-                    Padding(
-                      padding: const EdgeInsets.all(4.0),
-                      child: Text(firstName,
-                          style: const TextStyle(
-                              fontWeight: FontWeight.bold
-                          )),
-                    )
-                  ],
+              child: GestureDetector(
+                onTap: (){
+                  toast("whats up $firstName?");
+                },
+                child: Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Card(
+                    child: Column(
+                      children: [
+                        const Text("Hi",
+                          style: TextStyle(
+                               // fontWeight: FontWeight.bold
+                          ),),
+                        Padding(
+                          padding: const EdgeInsets.all(4.0),
+                          child: Text(firstName,
+                              style: const TextStyle(
+                                  fontWeight: FontWeight.bold
+                              )),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
-          ),
+            Expanded(
+              child: Container(
+                alignment: Alignment.centerRight,
+                child: PopupMenuButton(
+                  icon: const Icon(Icons.account_circle),
+                  onSelected: (String value) async {
+                    if (value == "logout"){
+
+                    }
+                    bool refresh = await handleMenuSelection(value, context);
+                    if(refresh){
+                      setState(() {
+                        //shouldRebuild = true;
+                      });
+                    }
+                  },
+                  itemBuilder: (BuildContext context) => <PopupMenuEntry<String>>[
+                    const PopupMenuItem<String>(
+                      value: 'activity',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(CupertinoIcons.graph_square),
+                          Text("  my activity"),
+                        ],
+                      ),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'exercises',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.access_time_outlined),
+                          Text("  my exercises"),
+                        ],
+                      ),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'register',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.add),
+                          Text("  Register an exercise"),
+                        ],
+                      ),
+                    ),
+                    const PopupMenuItem<String>(
+                      value: 'logout',
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Icon(Icons.logout),
+                          Text("  Logout"),
+                        ],
+                      ),
+                    ),
+                  ],
+
+                ),
+              ),
+            )
+          ],
         ),
       ),
       body: Builder(
         builder: (context) {
           if(Dashboard.refresh) {
             Dashboard.refresh = false;
-            print("*****************");
-            return FutureBuilder(future: fetchDashboardData(),
+            return FutureBuilder(future: fetchDashboardData(startDate, today),
               builder: (BuildContext context,
                   AsyncSnapshot<DashboardData> snapshot) {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   // While data is being fetched, show a loading indicator
                   return const Center(child: CircularProgressIndicator());
                 } else if (snapshot.hasError) {
-                  toast("${snapshot.error}");
-                  print("%%%%%%%%%%%%%%%%%%%%%");
-                  // If an error occurs during fetching, display an error message
-                  return DashboardBody(data: widget.data!);
+                  return Center(child:  Padding(
+                    padding: const EdgeInsets.all(15.0),
+                    child: Row(
+                      mainAxisAlignment:  MainAxisAlignment.center,
+                      children: [
+                        const Expanded(child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: Text(
+                            "Oops! We couldn't establish a connection with the server. Check your internet connection and refresh",
+                            style: TextStyle(color: Colors.pink),),
+                        )),
+                        IconButton(onPressed: (){setState(() {
+                          Dashboard.refresh = true;
+                        });}, icon: const Icon(Icons.refresh))
+                      ],
+                    ),
+                  ),);
+                  //return DashboardBody(data: widget.data!);
                 } else {
-                  print("@@@@@@@@@@@@@@@@@@@@@@");
+                  widget.data = snapshot.data;
                   return DashboardBody(data: snapshot.data!);
                 }
               },
             );
           }else{
+            if (widget.data == null){
+              setState(() {
+                Dashboard.refresh = true;
+              });
+              return Center(child:  Row(
+                mainAxisAlignment:  MainAxisAlignment.center,
+                children: [
+                  const Text("An error occured",style: TextStyle(color: Colors.pink),),
+                  IconButton(onPressed: (){setState(() {
+                    Dashboard.refresh = true;
+                  });}, icon: const Icon(Icons.refresh))
+                ],
+              ),);
+            }
             return DashboardBody(data: widget.data!);
           }
         }
@@ -91,7 +191,7 @@ class _DashboardState extends State<Dashboard> {
             //Navigator.pop(context);
             Navigator.push(context, MaterialPageRoute(builder: (context)=> PlantTree(exercise: null, tscNo: tscNo, exerciseId: null))).then((value) async {
               if (value == "refresh"){
-                DashboardData dData = await fetchDashboardData();
+                DashboardData dData = await fetchDashboardData(startDate, today);
                 setState(() {
                   widget.data = dData;
                 });
@@ -119,31 +219,7 @@ class _DashboardState extends State<Dashboard> {
         ),
       ],
     ),
-      // floatingActionButton: FloatingActionButton(onPressed: () {  },
-      // shape: const CircleBorder(),
-      //   child: const Icon(Icons.add),
-      // ),
-      // floatingActionButtonLocation: FloatingActionButtonLocation.,
     );
   }
-  Future<DashboardData> fetchDashboardData() async {
-    String response = await getStringRequest(tscNo, dashboardUpdateURL);
-    final data = jsonDecode(response);
-    String name = firstName;
-    int totalTreesPlanted = data['total trees'];
-    int myTrees = data['my trees'];
-    List regionalPerformance = data['regional performance'];
-    List<int> regionalSummary = [];
-    for (int i = 0; i<regionalPerformance.length; i++){
-      Map region = regionalPerformance[i];
-      regionalSummary.add(region['count']);
-    }
-    List topPlanters = data['leaderboard'];
-    List<LeaderboardItemModal> leaderboard = [];
-    for(int i = 0; i<topPlanters.length; i++){
-      Map planter = topPlanters[i];
-      leaderboard.add(LeaderboardItemModal(name: planter['name'], treeNumber: planter['count']));
-    }
-    return DashboardData(name: name, totalTrees: totalTreesPlanted, myTrees: myTrees, regionalSummary: regionalSummary, leaderboardList: leaderboard);
-  }
+
 }

@@ -1,10 +1,10 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:testproject/constants.dart';
-import 'package:testproject/exercise_modal.dart';
-import 'package:testproject/exercises_list.dart';
-import 'package:testproject/functions.dart';
+import 'package:tsc_miti/constants.dart';
+import 'package:tsc_miti/exercise_modal.dart';
+import 'package:tsc_miti/exercises_list.dart';
+import 'package:tsc_miti/functions.dart';
 
 class Home extends StatefulWidget {
   const Home({super.key});
@@ -95,7 +95,7 @@ class HomeState extends State<Home> {
         ),
       ),
       body: FutureBuilder<String>(
-        future: getStringRequest("", fetchExercisesURL), // Your fetchExercises function returning a Future<String>
+        future: getStringRequest({}, fetchExercisesURL), // Your fetchExercises function returning a Future<String>
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
             // While data is being fetched, show a loading indicator

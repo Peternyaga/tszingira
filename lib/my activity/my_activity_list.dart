@@ -1,5 +1,5 @@
 import 'package:flutter/cupertino.dart';
-import 'package:testproject/my%20activity/my%20activity%20item.dart';
+import 'package:tsc_miti/my%20activity/my%20activity%20item.dart';
 
 import 'my_activity_modal.dart';
 

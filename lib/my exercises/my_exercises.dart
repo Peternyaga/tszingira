@@ -11,7 +11,7 @@ class MyExercises extends StatelessWidget {
       appBar: AppBar(
         centerTitle: true,
         title: const Text("my exercises"),
-        backgroundColor: Colors.green[200],
+        //backgroundColor: Colors.green[200],
       ),
       body: WillPopScope(
           onWillPop: () async {

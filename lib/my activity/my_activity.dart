@@ -1,10 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:testproject/constants.dart';
-import 'package:testproject/functions.dart';
-import 'package:testproject/my%20activity/my_activity_list.dart';
-import 'package:testproject/my%20activity/my_activity_modal.dart';
+import 'package:tsc_miti/constants.dart';
+import 'package:tsc_miti/functions.dart';
+import 'package:tsc_miti/my%20activity/my_activity_list.dart';
+import 'package:tsc_miti/my%20activity/my_activity_modal.dart';
 
 class MyActivity extends StatelessWidget {
   const MyActivity({super.key});
@@ -15,10 +15,10 @@ class MyActivity extends StatelessWidget {
       appBar: AppBar(
         title: const Text("My Activity"),
         centerTitle: true,
-        backgroundColor: Colors.green[200],
+       // backgroundColor: Colors.green[200],
       ),
       body: FutureBuilder<String>(
-        future: getStringRequest(tscNo, myActivityURL),
+        future: getStringRequest({'query': tscNo}, myActivityURL),
         builder: (BuildContext context, AsyncSnapshot<String> snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
           // While data is being fetched, show a loading indicator
@@ -29,17 +29,13 @@ class MyActivity extends StatelessWidget {
           } else {
             List<MyActivityItemModal> list = [];
             try {
-              List myList = jsonDecode(snapshot.data.toString())['exercises'];
-              print(myList[0]);
+              List myList = jsonDecode(snapshot.data.toString());
               for(int i = 0; i < myList.length; i ++){
-                //list.add(value)
                 list.add(MyActivityItemModal(myList[i]['exercise name'], myList[i]['count'].toString()));
               }
               return MyActivityListBuilder(list: list);
 
             } catch (e) {
-              print("error ++++++++++++++++++++++");
-              print("error: ${e.toString()}");
               return const Center(child: Text("No activity to show.\n Please plant a tree."),);
             }
 

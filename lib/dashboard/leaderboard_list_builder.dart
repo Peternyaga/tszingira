@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:testproject/dashboard/leaderboard_item.dart';
-import 'package:testproject/dashboard/leaderboard_item_modal.dart';
+import 'package:tsc_miti/dashboard/leaderboard_item.dart';
+import 'package:tsc_miti/dashboard/leaderboard_item_modal.dart';
 
 class LeaderboardListBuilder extends StatelessWidget {
   final List<LeaderboardItemModal> list;

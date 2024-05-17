@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:testproject/plant_tree.dart';
+import 'package:tsc_miti/plant_tree.dart';
 import 'dart:io';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 
 class MyImagePicker extends StatefulWidget {
   const MyImagePicker({super.key});
@@ -24,6 +25,37 @@ class _MyImagePickerState extends State<MyImagePicker> {
         image = selectedImage;
       });
     }
+  }
+
+  Future<File?> compressImage(File file) async {
+    const int maxSizeInBytes = 1 * 1024 * 1024; // 1MB
+
+    // Compress the image to ensure it is less than 1MB
+    List<int> compressedBytes = await FlutterImageCompress.compressWithFile(
+      file.absolute.path,
+      minWidth: 1000,
+      minHeight: 1000,
+      quality: 90,
+    ) ?? [];
+
+    File compressedFile = File('${file.parent.path}/compressed');
+    await compressedFile.writeAsBytes(compressedBytes);
+
+    // Check if the compressed image is within the size limit
+    while (compressedBytes.length > maxSizeInBytes) {
+      int quality = (90 * maxSizeInBytes / compressedBytes.length).floor();
+      quality = quality > 0 ? quality : 1;
+      compressedBytes = await FlutterImageCompress.compressWithFile(
+        file.absolute.path,
+        minWidth: 1000,
+        minHeight: 1000,
+        quality: quality,
+      ) ?? [];
+      compressedFile = File('${file.parent.path}/compressed');
+      await compressedFile.writeAsBytes(compressedBytes);
+    }
+
+    return compressedFile;
   }
   // void clearData() {
   //   setState(() {

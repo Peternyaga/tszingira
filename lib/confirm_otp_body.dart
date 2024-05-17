@@ -1,10 +1,9 @@
 import 'dart:convert';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:http/http.dart' as http;
-import 'package:testproject/set%20password/create_password.dart';
+import 'package:tsc_miti/set%20password/create_password.dart';
 import 'constants.dart';
 import 'functions.dart';
 
@@ -26,7 +25,8 @@ class _ConfirmOtpBodyState extends State<ConfirmOtpBody> {
   Future<String> confirmOTP(String otp, String tscNo) async {
     Map<String, String> data = {
       'otp':otp,
-      'tsc_no':tscNo
+      'tsc_no':tscNo,
+      "api_key": "REMOVED_ROTATE_CREDENTIAL"
     };
 
     try{
@@ -47,7 +47,6 @@ class _ConfirmOtpBodyState extends State<ConfirmOtpBody> {
       setState(() {
         isLoading = false;
       });
-      print(response.body);
       return response.body;
     }catch(e){
       return e.toString();
@@ -113,9 +112,6 @@ class _ConfirmOtpBodyState extends State<ConfirmOtpBody> {
                 toast("Invalid OTP");
               }else{
                 toast("An error occurred. Please try again");
-              }
-              if (kDebugMode) {
-                print("tsc_no: $tsc");
               }
             },
             child:

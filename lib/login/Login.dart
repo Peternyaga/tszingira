@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:testproject/login/login_body.dart';
+import 'package:tsc_miti/login/login_body.dart';
 
 class Login extends StatelessWidget {
   const Login({super.key});
