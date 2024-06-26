@@ -20,7 +20,7 @@ class BarGraph extends StatelessWidget {
         nairobi: regionalSummary[7]);
     int max = regionalSummary
         .reduce((value, element) => value > element ? value : element);
-    double maxY = ((max + (max * 0.1)) / 10).round() * 10;
+    double maxY = ((max + (max * 0.1)) / 10+5).round() * 10;
     myBarData.initBarData();
     return Column(
       children: [

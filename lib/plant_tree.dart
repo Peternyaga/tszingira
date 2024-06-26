@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:image_picker/image_picker.dart';
@@ -42,7 +43,7 @@ class _PlantTreeState extends State<PlantTree> {
   TextEditingController treeName = TextEditingController();
   TextEditingController noOfTrees = TextEditingController();
   MyImagePicker imagePicker = const MyImagePicker();
-  int sitePresenceGroupValue = 1;
+  int sitePresenceGroupValue = 0;
   int treeNameKnowledgeGroupValue = 1;
   bool isUploading = false;
   bool recordUploaded = false;
@@ -75,7 +76,7 @@ class _PlantTreeState extends State<PlantTree> {
       print("selected date: $plantingDate");
       print("image date: $imageDate");
       if (imageDate == null) {
-        toast("Select an valid image");
+        toast("Select an image captured from your device");
         return;
       }
       //toast("coordinates: $coordinates");
@@ -298,6 +299,7 @@ class _PlantTreeState extends State<PlantTree> {
                             focusNode: PlantTree.myFocusNode,
                             textAlign: TextAlign.center,
                             textCapitalization: TextCapitalization.sentences,
+                            inputFormatters: [FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z]'))],
                             controller: treeName,
                             style: TextStyle(
                                 fontSize: 18,
@@ -323,7 +325,8 @@ class _PlantTreeState extends State<PlantTree> {
                         ),
                         //focusNode: PlantTree.myFocusNode,
                         textAlign: TextAlign.center,
-                        keyboardType: TextInputType.number,
+                        keyboardType: const TextInputType.numberWithOptions(signed: false, decimal: false),
+                        inputFormatters: [FilteringTextInputFormatter.digitsOnly],
                         controller: noOfTrees,
                         style: TextStyle(
                             fontSize: 18,
@@ -401,7 +404,7 @@ class _PlantTreeState extends State<PlantTree> {
     }
     try {
       dynamic response = await request.send();
-      print(response.statusCode);
+
       if (response.statusCode == 200) {
         var responseBody = await response.stream.bytesToString();
         var decodedResponse = jsonDecode(responseBody);

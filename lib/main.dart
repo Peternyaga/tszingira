@@ -1,3 +1,6 @@
+import 'dart:convert';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:tsc_miti/dashboard/dashboard.dart';
@@ -6,7 +9,30 @@ import 'package:tsc_miti/splashscreen.dart';
 
 import 'constants.dart';
 
-void main() {
+class HttpOverride extends HttpOverrides {
+  @override
+  HttpClient createHttpClient(SecurityContext? context) {
+    return super.createHttpClient(context)
+      ..badCertificateCallback =
+          (X509Certificate cert, String host, int port){
+      //print("cert=======>${cert.}");
+      return true;};
+  }
+}
+
+Future<void> main() async {
+  HttpOverrides.global = HttpOverride();
+  // var client = HttpClient();
+  // try {
+  //   var request = await client.getUrl(Uri.parse(baseUrl));
+  //   var response = await request.close();
+  //   // Handle the response...
+  //   print('Response status: ${response.statusCode}');
+  // } catch (e) {
+  //   print('Error: $e');
+  // } finally {
+  //   client.close();
+  // }
   runApp( MaterialApp(
     theme: ThemeData.light().copyWith(
       cardTheme: CardTheme(color: Colors.tealAccent[50]),

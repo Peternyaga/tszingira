@@ -131,6 +131,7 @@ class _LoginBodyState extends State<LoginBody> {
                         'password': md5.convert(utf8.encode(passwordEditor.text)).toString(),
                       };
                       dynamic response = await postStringRequest(data, loginURL);
+                      print(response);
                       setState(() {
                         isLoading = false;
                       });

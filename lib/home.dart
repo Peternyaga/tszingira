@@ -102,7 +102,8 @@ class HomeState extends State<Home> {
             return const Center(child: CircularProgressIndicator());
           } else if (snapshot.hasError) {
             // If an error occurs during fetching, display an error message
-            return Center(child: Text('Error: ${snapshot.error}'));
+            return const Center(child: Text('Oops!\n\nAn error occurred while fetching you data',
+            textAlign: TextAlign.center,));
           } else {
             List<dynamic> mylist;
             List<ExerciseModal> exerciseItems=[];
@@ -135,7 +136,6 @@ class HomeState extends State<Home> {
                }
 
             }catch(e){
-              print(e.toString());
               mylist=[1,2,3,4];
             }
             return ExercisesList(list: exerciseItems, myContext: 1,);

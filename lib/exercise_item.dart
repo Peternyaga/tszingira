@@ -18,6 +18,7 @@ class _ExerciseItemState extends State<ExerciseItem> {
   Widget build(BuildContext context) {
 
     void navigator(dynamic destination){
+      Navigator.pop(context);
       Navigator.push(
           context,
           MaterialPageRoute(
@@ -183,7 +184,7 @@ class _ExerciseItemState extends State<ExerciseItem> {
                                     widget.item.status++;
                                   });
                                 }else{
-                                  toast("an error occured. please try again");
+                                  toast("an error occurred. please try again");
                                 }
                               }, child: const Text("start")),
                             ],

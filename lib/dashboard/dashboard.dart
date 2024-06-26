@@ -128,59 +128,67 @@ class _DashboardState extends State<Dashboard>{
           ],
         ),
       ),
-      body: Builder(
-        builder: (context) {
-          if(Dashboard.refresh) {
-            Dashboard.refresh = false;
-            return FutureBuilder(future: fetchDashboardData(startDate, today),
-              builder: (BuildContext context,
-                  AsyncSnapshot<DashboardData> snapshot) {
-                if (snapshot.connectionState == ConnectionState.waiting) {
-                  // While data is being fetched, show a loading indicator
-                  return const Center(child: CircularProgressIndicator());
-                } else if (snapshot.hasError) {
-                  return Center(child:  Padding(
-                    padding: const EdgeInsets.all(15.0),
-                    child: Row(
-                      mainAxisAlignment:  MainAxisAlignment.center,
-                      children: [
-                        const Expanded(child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: Text(
-                            "Oops! We couldn't establish a connection with the server. Check your internet connection and refresh",
-                            style: TextStyle(color: Colors.pink),),
-                        )),
-                        IconButton(onPressed: (){setState(() {
-                          Dashboard.refresh = true;
-                        });}, icon: const Icon(Icons.refresh))
-                      ],
-                    ),
-                  ),);
-                  //return DashboardBody(data: widget.data!);
-                } else {
-                  widget.data = snapshot.data;
-                  return DashboardBody(data: snapshot.data!);
-                }
-              },
-            );
-          }else{
-            if (widget.data == null){
-              setState(() {
-                Dashboard.refresh = true;
-              });
-              return Center(child:  Row(
-                mainAxisAlignment:  MainAxisAlignment.center,
-                children: [
-                  const Text("An error occured",style: TextStyle(color: Colors.pink),),
-                  IconButton(onPressed: (){setState(() {
-                    Dashboard.refresh = true;
-                  });}, icon: const Icon(Icons.refresh))
-                ],
-              ),);
+      body: RefreshIndicator(
+
+        onRefresh: () { setState(() {
+          Dashboard.refresh=true;
+        });
+          return Future(() => null);
+          },
+        child: Builder(
+          builder: (context) {
+            if(Dashboard.refresh) {
+              Dashboard.refresh = false;
+              return FutureBuilder(future: fetchDashboardData(startDate, today),
+                builder: (BuildContext context,
+                    AsyncSnapshot<DashboardData> snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    // While data is being fetched, show a loading indicator
+                    return const Center(child: CircularProgressIndicator());
+                  } else if (snapshot.hasError) {
+                    return Center(child:  Padding(
+                      padding: const EdgeInsets.all(15.0),
+                      child: Row(
+                        mainAxisAlignment:  MainAxisAlignment.center,
+                        children: [
+                          const Expanded(child: Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Text(
+                              "Oops! We couldn't establish a connection with the server. Check your internet connection and refresh",
+                              style: TextStyle(color: Colors.pink),),
+                          )),
+                          IconButton(onPressed: (){setState(() {
+                            Dashboard.refresh = true;
+                          });}, icon: const Icon(Icons.refresh))
+                        ],
+                      ),
+                    ),);
+                    //return DashboardBody(data: widget.data!);
+                  } else {
+                    widget.data = snapshot.data;
+                    return DashboardBody(data: snapshot.data!);
+                  }
+                },
+              );
+            }else{
+              if (widget.data == null){
+                setState(() {
+                  Dashboard.refresh = true;
+                });
+                return Center(child:  Row(
+                  mainAxisAlignment:  MainAxisAlignment.center,
+                  children: [
+                    const Text("An error occured",style: TextStyle(color: Colors.pink),),
+                    IconButton(onPressed: (){setState(() {
+                      Dashboard.refresh = true;
+                    });}, icon: const Icon(Icons.refresh))
+                  ],
+                ),);
+              }
+              return DashboardBody(data: widget.data!);
             }
-            return DashboardBody(data: widget.data!);
           }
-        }
+        ),
       ),
       bottomNavigationBar: BottomNavigationBar(
       currentIndex: item,

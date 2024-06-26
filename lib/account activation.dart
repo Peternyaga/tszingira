@@ -37,6 +37,7 @@ class _ActivationState extends State<Activation> {
       print(response.body);
         return response.body;
     } catch (e) {
+      print(e.toString());
       return "112";
     }
   }

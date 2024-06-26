@@ -2,7 +2,7 @@ import 'package:tsc_miti/dashboard/leaderboard_item_modal.dart';
 import 'package:intl/intl.dart';
 
 
-const String baseUrl = "https://probable-weasel-newly.ngrok-free.app";
+const String baseUrl = "https://services.tsc.go.ke/tsc-mazingira";
 //const String baseUrl = "http://127.0.0.1:8000";
 const String apisUrl = "$baseUrl/api";
 const String accountActivationURL = "$apisUrl/activate";

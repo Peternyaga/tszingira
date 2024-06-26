@@ -12,15 +12,18 @@ if (localPropertiesFile.exists()) {
     }
 }
 
-def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
-if (flutterVersionCode == null) {
-    flutterVersionCode = '1'
-}
+//def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+//if (flutterVersionCode == null) {
+//    flutterVersionCode = '1.1'
+//}
+//
+//def flutterVersionName = localProperties.getProperty('flutter.versionName')
+//if (flutterVersionName == null) {
+//    flutterVersionName = '1.1'
+//}
 
-def flutterVersionName = localProperties.getProperty('flutter.versionName')
-if (flutterVersionName == null) {
-    flutterVersionName = '1.0'
-}
+def flutterVersionCode = 3
+def flutterVersionName = '1.0.0'
 
 android {
     namespace "ke.go.tsc.TSC_Miti"
@@ -42,13 +45,38 @@ android {
         targetSdkVersion flutter.targetSdkVersion
         versionCode flutterVersionCode.toInteger()
         versionName flutterVersionName
+
+        ndk {
+            debugSymbolLevel 'FULL'
+        }
+    }
+    signingConfigs {
+        release {
+            keyAlias 'tsc-mazingira-key-alias'
+            keyPassword 'Penn@998'
+            storeFile file('C:\\Users\\peterngari\\StudioProjects\\New folder\\tszingira\\tsc_mazingira-release-key.jks')
+            storePassword 'Penn@998'
+        }
     }
 
     buildTypes {
         release {
-            signingConfig signingConfigs.debug
+            signingConfig signingConfigs.release
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+            ndk {
+                // Choose between SYMBOL_TABLE and FULL
+                debugSymbolLevel = "FULL"
+            }
         }
     }
+
+//    buildTypes {
+//        release {
+//            signingConfig signingConfigs.release
+//        }
+//    }
 }
 
 flutter {

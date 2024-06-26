@@ -265,7 +265,7 @@ class _DashboardBodyState extends State<DashboardBody> {
                         ],
                       ),
                     ),
-                    
+
                     Expanded(
                       child: Builder(
                         builder: (context) {
