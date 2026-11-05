@@ -21,7 +21,7 @@ const String dashboardUpdateURL = "$apisUrl/updateDashboard";
 const String secretariatUpdateURL = "$apisUrl/sec_performance";
 const String teachersUpdateURL = "$apisUrl/teachers_per_county";
 
-String APIKey = 'REMOVED_ROTATE_CREDENTIAL';
+String APIKey = const String.fromEnvironment('TSC_API_KEY');
  String tscNo = "";
  String firstName = "";
  int totalTrees = 0;

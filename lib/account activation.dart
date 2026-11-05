@@ -24,7 +24,7 @@ class _ActivationState extends State<Activation> {
     final Map<String, dynamic> data = {
       'tsc_no': tscNo,
       'phone': phone,
-      "api_key": "REMOVED_ROTATE_CREDENTIAL"
+      "api_key": const String.fromEnvironment('TSC_API_KEY')
     };
     try {
       var response = await http.post(

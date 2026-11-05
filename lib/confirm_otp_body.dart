@@ -26,7 +26,7 @@ class _ConfirmOtpBodyState extends State<ConfirmOtpBody> {
     Map<String, String> data = {
       'otp':otp,
       'tsc_no':tscNo,
-      "api_key": "REMOVED_ROTATE_CREDENTIAL"
+      "api_key": const String.fromEnvironment('TSC_API_KEY')
     };
 
     try{

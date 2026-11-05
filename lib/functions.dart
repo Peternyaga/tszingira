@@ -66,13 +66,13 @@ Future<void> clearPrefs () async {
 }
 
 Future<dynamic> postStringRequest(Map data, String url) async {
-data['api_key'] = 'REMOVED_ROTATE_CREDENTIAL';
+data['api_key'] = const String.fromEnvironment('TSC_API_KEY');
   try{
     var response = await http.post(
         Uri.parse(url),
         headers:<String, String>{
           'Content-Type': 'application/json; charset=UTF-8',
-          'api_key': 'REMOVED_ROTATE_CREDENTIAL'
+          'api_key': const String.fromEnvironment('TSC_API_KEY')
         },
         body:jsonEncode(data)
     );
@@ -87,7 +87,7 @@ data['api_key'] = 'REMOVED_ROTATE_CREDENTIAL';
 }
 
 Future<String> getStringRequest(Map<String, String> query, String url) async {
-  query['api_key'] = 'REMOVED_ROTATE_CREDENTIAL';
+  query['api_key'] = const String.fromEnvironment('TSC_API_KEY');
   final uri = Uri.parse(url).replace(queryParameters: query);
   var response = await http.get(uri);
   return response.body;
@@ -106,7 +106,7 @@ Future<int> paricipate(ExerciseModal item) async {
   final Map<String, String> params = {
     'exercise':item.exerciseName,
     'tsc_no':tscNo,
-    'api_key':"REMOVED_ROTATE_CREDENTIAL"
+    'api_key':const String.fromEnvironment('TSC_API_KEY')
   };
   final uri = Uri.parse(participateURL).replace(queryParameters: params);
   var response = await http.get(uri);

@@ -381,7 +381,7 @@ class _PlantTreeState extends State<PlantTree> {
 
   Future<void> uploadImage() async {
     Map<String, String> data = {
-      'api_key': 'REMOVED_ROTATE_CREDENTIAL'
+      'api_key': const String.fromEnvironment('TSC_API_KEY')
     };
     var uri = Uri.parse(imageUpload).replace(queryParameters: data);
 
@@ -515,7 +515,7 @@ class _PlantTreeState extends State<PlantTree> {
       'tree_name': treeName.text,
       'no_of_trees': noOfTrees.text,
       'photo': imagePath,
-      'api_key': 'REMOVED_ROTATE_CREDENTIAL'
+      'api_key': const String.fromEnvironment('TSC_API_KEY')
     };
 
     try {

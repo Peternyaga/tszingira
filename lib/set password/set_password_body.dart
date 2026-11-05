@@ -33,7 +33,7 @@ class _State extends State<SetPasswordBody> {
   }
 
   Future<String> setPassword(String password, String tscNo) async {
-    Map<String, String> data = {'password': password, 'tsc_no': tscNo, "api_key": "REMOVED_ROTATE_CREDENTIAL"};
+    Map<String, String> data = {'password': password, 'tsc_no': tscNo, "api_key": const String.fromEnvironment('TSC_API_KEY')};
 
     try {
       var response = await http.post(Uri.parse(setPasswordURL),
